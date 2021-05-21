@@ -40,6 +40,16 @@ public class UserService {
         return userMapper.userDtoToUser(userToReturn);
     }
 
+    public UserDto login(String email, String password) {
+        Optional<User> bdUser = userRepository.findByEmail(email);
+        if (bdUser.isPresent()) {
+            String encodedPassword = passwordEncoderConfig.encoder().encode(password);
+            System.out.println(bdUser.get());
+            if (bdUser.get().getPassword().equals(encodedPassword)) userMapper.userDtoToUser(bdUser.get());
+        }
+        return null;
+    }
+
     public UserDto modifyUser(User user) {
         if (userRepository.existsById(user.getId())) {
             User userToReturn = userRepository.save(user);

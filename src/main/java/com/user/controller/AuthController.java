@@ -21,8 +21,8 @@ public class AuthController {
     }
 
     @PostMapping("")
-    public UserDto createUser(@RequestBody User user) {
-        return userService.registerUser(user);
+    public UserDto login(@RequestBody String email, String password) {
+        return userService.login(email, password);
     }
 
 }
