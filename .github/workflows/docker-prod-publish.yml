@@ -28,5 +28,5 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           push: true
-          build-args: configuration="develop" .
+          build-args: .
           tags: docker.pkg.github.com/${{ github.repository }}/jibby-jabber-users:latest
