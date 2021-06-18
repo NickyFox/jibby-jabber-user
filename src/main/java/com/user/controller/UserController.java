@@ -1,6 +1,8 @@
 package com.user.controller;
 
+import com.user.model.dto.FollowerDto;
 import com.user.model.dto.UserReduced;
+import com.user.model.dto.UserReducedList;
 import com.user.model.tables.User;
 import com.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,7 @@ import java.util.Optional;
 public class UserController {
 
     private final UserService userService;
+//    private final FollowerMapper followerMapper;
 
     @Autowired
     public UserController(UserService userService) {
@@ -24,15 +27,14 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<User> getUserModel(@PathVariable Long id) {
         Optional<User> user = userService.findUserById(id);
-        if (user.isPresent())   return new ResponseEntity<>(user.get(), HttpStatus.OK);
+        if (user.isPresent()) return new ResponseEntity<>(user.get(), HttpStatus.OK);
         return new ResponseEntity("El usuario no esta registrado", HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("/email/{email}")
     public ResponseEntity<User> getUserByEmail(@PathVariable String email) {
-        System.out.println(email);
         Optional<User> user = userService.getUserByEmail(email);
-        if (user.isPresent())   return new ResponseEntity<>(user.get(), HttpStatus.OK);
+        if (user.isPresent()) return new ResponseEntity<>(user.get(), HttpStatus.OK);
         return new ResponseEntity("El usuario no esta registrado", HttpStatus.BAD_REQUEST);
     }
 
@@ -46,25 +48,42 @@ public class UserController {
         return new ResponseEntity<>(userService.registerUser(user).getId(), HttpStatus.OK);
     }
 
-    @PutMapping("/{id}/password")
-    public ResponseEntity<UserReduced> modifyPassword(@RequestBody User user) {
-        if (userService.existsById(user.getId()))
+    @PostMapping("/{id}/password")
+    public ResponseEntity<UserReduced> modifyPassword(@RequestBody String password, @PathVariable long id) {
+        try {
+            User user = new User();
+            user.setId(id);
+            user.setPassword(password);
             return new ResponseEntity(userService.modifyPassword(user), HttpStatus.OK);
-        return new ResponseEntity("El usuario no se encuentra registrado", HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
-    @PutMapping("/{id}/update")
-    public ResponseEntity updateUser(@RequestBody User user) {
-        if (userService.existsById(user.getId())) return new ResponseEntity(userService.modifyUser(user), HttpStatus.OK);
-        return new ResponseEntity("El usuario no esta registrado", HttpStatus.BAD_REQUEST);
-
+    @PostMapping("/{id}/update")
+    public ResponseEntity updateUser(@RequestBody String username, @PathVariable long id) {
+        try {
+            return new ResponseEntity(userService.modifyUser(id, username), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
-    @PutMapping("/{id}/delete")
+    @PostMapping("/{id}/delete")
     public ResponseEntity deleteUser(@PathVariable Long id) {
         if (userService.existsById(id)) return new ResponseEntity(userService.deleteUser(id), HttpStatus.OK);
         return new ResponseEntity("El usuario no esta registrado", HttpStatus.BAD_REQUEST);
     }
 
+    @GetMapping("/search/{username}")
+    public ResponseEntity<UserReducedList> searchUsername(@PathVariable String username) {
+        return new ResponseEntity<>(this.userService.searchUser(username), HttpStatus.OK);
+    }
+//    @PostMapping("/follow")
+//    public ResponseEntity followUser(@RequestBody FollowerDto followerDto) {
+//        FollowerFollowing followerFollowing = followerMapper.followerDtoToFollower(followerDto);
+//        userService.addFollowerFollowingRelation(followerFollowing);
+//        return ResponseEntity.ok("Follow succesfully");
+//    }
 
 }

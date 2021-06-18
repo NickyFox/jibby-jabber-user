@@ -2,9 +2,9 @@ package com.user.model.dto;
 
 public class UserReduced {
 
-    private final long id;
-    private final String username;
-    private final String email;
+    private long id;
+    private String username;
+    private String email;
 
 
     public UserReduced(long id, String username, String email) {
@@ -23,5 +23,17 @@ public class UserReduced {
 
     public long getId() {
         return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

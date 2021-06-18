@@ -3,6 +3,7 @@ package com.user.model.tables;
 import com.sun.istack.NotNull;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "`user`")
@@ -21,6 +22,20 @@ public class User {
 
     @NotNull
     private String password;
+
+//    @ManyToMany
+//    @JoinTable(name="follower_following",
+//            joinColumns=@JoinColumn(name="following"),
+//            inverseJoinColumns=@JoinColumn(name="follower")
+//    )
+//    private List<User> following;
+//
+//    @ManyToMany
+//    @JoinTable(name="follower_following",
+//            joinColumns=@JoinColumn(name="follower"),
+//            inverseJoinColumns=@JoinColumn(name="following")
+//    )
+//    private List<User> followers;
 
     public User() {
     }
