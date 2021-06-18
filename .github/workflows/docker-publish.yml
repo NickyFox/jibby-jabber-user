@@ -24,9 +24,9 @@ jobs:
           registry: docker.pkg.github.com
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build frontend docker image
+      - name: Build docker image
         uses: docker/build-push-action@v2
         with:
           push: true
           build-args: .
-          tags: docker.pkg.github.com/${{ github.repository }}/jibby-jabber-users:latest
+          tags: docker.pkg.github.com/${{ github.repository }}/jibby-jabber-user:latest
