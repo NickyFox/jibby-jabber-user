@@ -1,0 +1,32 @@
+name: Docker prod publish
+
+on:
+  push:
+    branches: [master]
+
+env:
+  IMAGE_NAME: jibby-jabber-users
+
+jobs:
+  push:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+
+   steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Log in to GitHub Docker Registry
+        uses: docker/login-action@v1
+        with:
+          registry: docker.pkg.github.com
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build frontend docker image
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          build-args: configuration="develop" .
+          tags: docker.pkg.github.com/${{ github.repository }}/jibby-jabber-users:latest
