@@ -9,5 +9,5 @@ FROM openjdk:11-jre-slim
 EXPOSE 8080
 RUN mkdir /app
 
-COPY --from=build /home/gradle/src/build/libs/jibby-jabber-user.jar /app/spring-boot-application.jar
+COPY --from=build /home/gradle/src/build/libs/jibby-jabber-user-1.0-SNAPSHOT.jar /app/spring-boot-application.jar
 ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=production", "/app/spring-boot-application.jar"]
