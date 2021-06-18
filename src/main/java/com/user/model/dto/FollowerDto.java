@@ -2,30 +2,30 @@ package com.user.model.dto;
 
 public class FollowerDto {
 
-    private long following;
-    private long follower;
+    private long to;
+    private long from;
 
     public FollowerDto() {
     }
 
-    public FollowerDto(long following, long follower) {
-        this.following = following;
-        this.follower = follower;
+    public FollowerDto(long to, long from) {
+        this.to = to;
+        this.from = from;
     }
 
-    public long getFollowing() {
-        return following;
+    public long getTo() {
+        return to;
     }
 
-    public void setFollowing(long following) {
-        this.following = following;
+    public void setTo(long to) {
+        this.to = to;
     }
 
-    public long getFollower() {
-        return follower;
+    public long getFrom() {
+        return from;
     }
 
-    public void setFollower(long follower) {
-        this.follower = follower;
+    public void setFrom(long from) {
+        this.from = from;
     }
 }

@@ -23,6 +23,12 @@ public class User {
     @NotNull
     private String password;
 
+    @OneToMany(mappedBy="to")
+    private List<Followers> followers;
+
+    @OneToMany(mappedBy="from")
+    private List<Followers> following;
+
 //    @ManyToMany
 //    @JoinTable(name="follower_following",
 //            joinColumns=@JoinColumn(name="following"),

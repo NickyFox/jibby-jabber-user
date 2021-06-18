@@ -3,6 +3,7 @@ package com.user.controller;
 import com.user.model.dto.FollowerDto;
 import com.user.model.dto.UserReduced;
 import com.user.model.dto.UserReducedList;
+import com.user.model.tables.Followers;
 import com.user.model.tables.User;
 import com.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,6 +80,28 @@ public class UserController {
     public ResponseEntity<UserReducedList> searchUsername(@PathVariable String username) {
         return new ResponseEntity<>(this.userService.searchUser(username), HttpStatus.OK);
     }
+
+    @PostMapping("/follow")
+    public ResponseEntity<Followers> followUser(@RequestBody FollowerDto followerDto) {
+        return new ResponseEntity(userService.addFollowerFollowingRelation(followerDto), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/follow")
+    public ResponseEntity unfollowUser(@RequestBody FollowerDto followerDto) {
+        return new ResponseEntity(userService.unfollowUser(followerDto), HttpStatus.OK);
+    }
+
+    @GetMapping("/followers/{userId}")
+    public ResponseEntity<UserReducedList> getFollowers(@PathVariable Long userId) {
+        return new ResponseEntity(this.userService.getFollowers(userId), HttpStatus.OK);
+    }
+
+    @GetMapping("/followings/{userId}")
+    public ResponseEntity<UserReducedList> getFollowings(@PathVariable Long userId) {
+        return new ResponseEntity(this.userService.getFollowings(userId), HttpStatus.OK);
+    }
+
+
 //    @PostMapping("/follow")
 //    public ResponseEntity followUser(@RequestBody FollowerDto followerDto) {
 //        FollowerFollowing followerFollowing = followerMapper.followerDtoToFollower(followerDto);
