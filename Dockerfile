@@ -2,7 +2,7 @@ FROM gradle:7.0-jdk11 AS build
 
 COPY . /home/gradle/src/
 WORKDIR /home/gradle/src
-RUN gradle assemble
+RUN gradle build
 
 FROM openjdk:11-jre-slim
 
