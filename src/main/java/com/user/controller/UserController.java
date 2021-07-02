@@ -88,11 +88,6 @@ public class UserController {
         return new ResponseEntity(userService.addFollowerFollowingRelation(followerDto), HttpStatus.OK);
     }
 
-    @DeleteMapping("/follow")
-    public ResponseEntity unfollowUser(@RequestBody FollowerDto followerDto) {
-        return new ResponseEntity(userService.unfollowUser(followerDto), HttpStatus.OK);
-    }
-
     @GetMapping("/followers/{userId}")
     public ResponseEntity<UserReducedList> getFollowers(@PathVariable Long userId) {
         return new ResponseEntity(this.userService.getFollowers(userId), HttpStatus.OK);

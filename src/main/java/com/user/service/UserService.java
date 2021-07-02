@@ -90,19 +90,20 @@ public class UserService {
     }
 
     public FollowerDto addFollowerFollowingRelation(FollowerDto followerDto) {
-        if (followersRepository.existsByFrom_IdAndTo_Id(followerDto.getFrom(), followerDto.getTo())){
-            followersRepository.deleteByFrom_IdAndTo_Id(followerDto.getFrom(), followerDto.getTo());
+        Optional<Followers> optionalFollowers = followersRepository.findByFrom_IdAndTo_Id(followerDto.getFrom(), followerDto.getTo());
+        if (optionalFollowers.isPresent()){
+            followersRepository.delete(optionalFollowers.get());
             return followerDto;
         }
         Followers followers = followerMapper.followerDtoToFollower(followerDto);
         followersRepository.save(followers);
         return followerDto;
     }
-
-    public long unfollowUser(FollowerDto followerFollowing) {
-        followersRepository.deleteByFrom_IdAndTo_Id(followerFollowing.getTo(), followerFollowing.getFrom());
-        return followerFollowing.getTo();
-    }
+//
+//    public long unfollowUser(FollowerDto followerFollowing) {
+//        followersRepository.deleteByFrom_IdAndTo_Id(followerFollowing.getTo(), followerFollowing.getFrom());
+//        return followerFollowing.getTo();
+//    }
 
     public UserReducedList getFollowers(long userId) {
        List<Followers> followerFollowingList =  followersRepository.findAllByToId(userId);
