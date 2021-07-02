@@ -89,13 +89,18 @@ public class UserService {
         return new UserReducedList(userReduced);
     }
 
-    public Followers addFollowerFollowingRelation(FollowerDto followerDto) {
+    public FollowerDto addFollowerFollowingRelation(FollowerDto followerDto) {
+        if (followersRepository.existsByFrom_IdAndTo_Id(followerDto.getFrom(), followerDto.getTo())){
+            followersRepository.deleteByFrom_IdAndTo_Id(followerDto.getFrom(), followerDto.getTo());
+            return followerDto;
+        }
         Followers followers = followerMapper.followerDtoToFollower(followerDto);
-        return followersRepository.save(followers);
+        followersRepository.save(followers);
+        return followerDto;
     }
 
     public long unfollowUser(FollowerDto followerFollowing) {
-        followersRepository.deleteByFromIdAndToId(followerFollowing.getTo(), followerFollowing.getFrom());
+        followersRepository.deleteByFrom_IdAndTo_Id(followerFollowing.getTo(), followerFollowing.getFrom());
         return followerFollowing.getTo();
     }
 
@@ -109,7 +114,7 @@ public class UserService {
     public UserReducedList getFollowings(long userId) {
         List<Followers> followerFollowingList =  followersRepository.findAllByFromId(userId);
         if (followerFollowingList.isEmpty()) return new UserReducedList(new ArrayList<>());
-        List<UserReduced> followings = followerFollowingList.stream().map(f -> userMapper.userToUserDto(f.getFrom())).collect(Collectors.toList());
+        List<UserReduced> followings = followerFollowingList.stream().map(f -> userMapper.userToUserDto(f.getTo())).collect(Collectors.toList());
         return new UserReducedList(followings);
     }
 //

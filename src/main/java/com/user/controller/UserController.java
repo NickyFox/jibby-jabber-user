@@ -84,7 +84,7 @@ public class UserController {
     }
 
     @PostMapping("/follow")
-    public ResponseEntity<Followers> followUser(@RequestBody FollowerDto followerDto) {
+    public ResponseEntity<FollowerDto> followUser(@RequestBody FollowerDto followerDto) {
         return new ResponseEntity(userService.addFollowerFollowingRelation(followerDto), HttpStatus.OK);
     }
 
