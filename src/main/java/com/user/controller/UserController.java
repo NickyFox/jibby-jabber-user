@@ -20,7 +20,6 @@ import java.util.Optional;
 public class UserController {
 
     private final UserService userService;
-//    private final FollowerMapper followerMapper;
 
     @Autowired
     public UserController(UserService userService) {
